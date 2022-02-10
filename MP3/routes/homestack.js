@@ -7,7 +7,7 @@ const screens = {
     Home: {
         screen : Home
     },
-    Information: {
+    PersonalInfo: {
         screen : PersonalInfo
     }
 }

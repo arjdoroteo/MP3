@@ -16,7 +16,7 @@ export default function Home({navigation}) {
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     const submitHandler = () => {
-      navigation.navigate('Information')
+      navigation.navigate('PersonalInfo')
     }
     return (
       <View style={styles.rootContainer}>
