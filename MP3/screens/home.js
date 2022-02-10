@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, Button, Alert} from 'react-native';
 import Checkbox from 'expo-checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Home({navigation}) {
     const [isYesChecked, setYesChecked] = useState(false);
@@ -17,6 +19,10 @@ export default function Home({navigation}) {
       ]);
     const submitHandler = () => {
       navigation.navigate('Information')
+    }
+
+    const certhandler = () => {
+      navigation.navigate('Certificate')
     }
     return (
       <View style={styles.rootContainer}>
@@ -49,6 +55,12 @@ export default function Home({navigation}) {
             title = "Submit"
             disabled = {!isYesChecked}
             onPress = {submitHandler}>
+            </Button>
+          </View>
+          <View style = {styles.submitbtn}>
+            <Button
+            title = "Track your Certificate"
+            onPress = {certhandler}>
             </Button>
           </View>
         </View>
@@ -85,5 +97,6 @@ export default function Home({navigation}) {
     },
     submitbtn:{
       alignItems:'center',
+      margin: 10
     }
   });

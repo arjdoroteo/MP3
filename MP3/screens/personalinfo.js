@@ -1,28 +1,68 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Button, Alert, TextInput,} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Alert, TextInput, } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PersonalInfo({navigation}) {
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedfirstCity, setfirstSelectedCity] = useState('');
+  const [selectedsecondCity, setsecondSelectedCity] = useState('');
+  const [selectedthirdCity, setthirdSelectedCity] = useState('');
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [suffix, setSuffix] = useState('');
   const [birthdate, setBirthdate] = useState('');
+  const [firstDose, setFirstDose] = useState('');
+  const [secondDose, setSecondDose] = useState('');
+  const [thirdDose, setThirdDose] = useState('');
 
-  const submitHandler = () => {
-    navigation.navigate('Certificate',
-    {
-      lName:lastName,
-      fname:firstName,
-      mname:middleName,
-      sname:suffix,
-      bday:birthdate,
+  const [personArray, setPersonArray] = useState([]);
+  
+  const saveHandler = async() => {
+    try{
+      await AsyncStorage.setItem('lname',lastName)
+      await AsyncStorage.setItem('fname',firstName)
+      await AsyncStorage.setItem('mname',middleName)
+      await AsyncStorage.setItem('sname',suffix)
+      await AsyncStorage.setItem('bday',birthdate)
+      await AsyncStorage.setItem('1stcity',selectedfirstCity)
+      await AsyncStorage.setItem('2ndcity',selectedsecondCity)
+      await AsyncStorage.setItem('3rdcity',selectedthirdCity)
+      await AsyncStorage.setItem('1stdose',firstDose)
+      await AsyncStorage.setItem('2nddose',secondDose)
+      await AsyncStorage.setItem('3rddose',thirdDose)
+      
+      navigation.navigate('Home')
     }
-    )
-
+    catch(e){
+      alert(e)
+    }
+  }
+  
+  const submitHandler = () => {
+    if ((lastName == ''|| (firstName == '')|| (middleName == '')|| (birthdate == '')
+    || (firstDose == '')|| (secondDose == ''))){
+      Alert.alert('Notice', 'Please complete the information below.', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+        
+      ]);
+    }
+    else {
+      Alert.alert('Notice', 'Thank you for submitting, Please track your certificate in the home screen.', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => saveHandler()},
+      ]);
+      
+    }
   }
 
     return (
@@ -35,49 +75,53 @@ export default function PersonalInfo({navigation}) {
         <Text style= {styles.labelstyle}>Middle Name</Text>
         <TextInput style={styles.inputStyles} placeholder='Middle Name' onChangeText={(val) => setMiddleName(val)}></TextInput>
         <Text style= {styles.labelstyle}>Suffix</Text>
-        <TextInput style={styles.inputStyles} placeholder='Suffix' onChangeText={(val) => setSuffix(val)}></TextInput>
+        <TextInput style={styles.inputStyles} placeholder='Suffix (Optional)' onChangeText={(val) => setSuffix(val)}></TextInput>
         
         <Text style= {styles.labelstyle}>Birthdate (MM-DD-YYYY)</Text>
         <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY' onChangeText={(val) => setBirthdate(val)}></TextInput>
         <Text style= {styles.labelstyle}>Where did you have your 1st Dose Vaccination?</Text>
         
-        <Picker selectedValue={selectedCity}
+        <Picker selectedValue={selectedfirstCity}
         onValueChange={(itemValue, itemIndex) =>
-        setSelectedCity(itemValue)}>
+        setfirstSelectedCity(itemValue)}>
+          <Picker.Item label='-' value="-"/>
           <Picker.Item label='Manila, NCR' value="man"/>
           <Picker.Item label='Las Pinas, NCR' value="lp"/>
           <Picker.Item label='Caloocan, NCR' value="cal"/>
         </Picker>
         <Text style= {styles.labelstyle}>Date of 1st Dose (MM-DD-YYYY)</Text>
-        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY'></TextInput>
+        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY' onChangeText={(val) => setFirstDose(val)}></TextInput>
 
         <Text style= {styles.labelstyle}>Where did you have your 2nd Dose Vaccination?</Text>
         
-        <Picker selectedValue={selectedCity}
+        <Picker selectedValue={selectedsecondCity}
         onValueChange={(itemValue, itemIndex) =>
-        setSelectedCity(itemValue)}>
+        setsecondSelectedCity(itemValue)}>
+          <Picker.Item label='-' value="-"/>
           <Picker.Item label='Manila, NCR' value="man"/>
           <Picker.Item label='Las Pinas, NCR' value="lp"/>
           <Picker.Item label='Caloocan, NCR' value="cal"/>
         </Picker>
         <Text style= {styles.labelstyle}>Date of 2nd Dose (MM-DD-YYYY)</Text>
-        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY'></TextInput>
+        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY' onChangeText={(val) => setSecondDose(val)}></TextInput>
 
         <Text style= {styles.labelstyle}>Where did you have your Additional Dose Vaccination?</Text>
         
-        <Picker selectedValue={selectedCity}
+        <Picker selectedValue={selectedthirdCity}
         onValueChange={(itemValue, itemIndex) =>
-        setSelectedCity(itemValue)}>
+        setthirdSelectedCity(itemValue)}>
+          <Picker.Item label='-' value="-"/>
           <Picker.Item label='Manila, NCR' value="man"/>
           <Picker.Item label='Las Pinas, NCR' value="lp"/>
           <Picker.Item label='Caloocan, NCR' value="cal"/>
         </Picker>
         <Text style= {styles.labelstyle}>Date of additional Dose (MM-DD-YYYY)</Text>
-        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY'></TextInput>
+        <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY (Optional)' onChangeText={(val) => setThirdDose(val)}></TextInput>
         <View style = {{margin:15, alignItems:'center'}}>
           <Button
           title='Submit'
           onPress={submitHandler}
+          
           />
         </View>
       </ScrollView>
