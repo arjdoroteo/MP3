@@ -17,7 +17,7 @@ export default function PersonalInfo() {
         <Text style= {styles.labelstyle}>Birthdate (MM-DD-YYYY)</Text>
         <TextInput style={styles.inputStyles} placeholder='MM-DD-YYY'></TextInput>
         <Text style= {styles.labelstyle}>Where did you have your 1st Dose Vaccination?</Text>
-        <Text style= {styles.labelstyle}>Where did you have your 1st Dose Vaccination?</Text>
+        
       </ScrollView>
     );
   }
