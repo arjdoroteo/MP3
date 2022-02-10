@@ -16,7 +16,7 @@ export default function Home({navigation}) {
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     const submitHandler = () => {
-      navigation.navigate('PersonalInfo')
+      navigation.navigate('Information')
     }
     return (
       <View style={styles.rootContainer}>
@@ -47,7 +47,6 @@ export default function Home({navigation}) {
           <View style = {styles.submitbtn}>
             <Button
             title = "Submit"
-            color = 'pink'
             disabled = {!isYesChecked}
             onPress = {submitHandler}>
             </Button>
