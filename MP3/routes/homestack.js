@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import Home from '../screens/home';
 import PersonalInfo from "../screens/personalinfo";
+import Cert from "../screens/cert";
 
 const screens = {
     Home: {
@@ -9,6 +10,9 @@ const screens = {
     },
     Information: {
         screen : PersonalInfo
+    },
+    Certificate:{
+        screen: Cert
     }
 }
 
