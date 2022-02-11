@@ -17,29 +17,29 @@ export default function PersonalInfo({navigation}) {
   const [secondDose, setSecondDose] = useState('');
   const [thirdDose, setThirdDose] = useState('');
 
-  const [personArray, setPersonArray] = useState([]);
-  
   const saveHandler = async() => {
     try{
-      await AsyncStorage.setItem('lname',lastName)
-      await AsyncStorage.setItem('fname',firstName)
-      await AsyncStorage.setItem('mname',middleName)
-      await AsyncStorage.setItem('sname',suffix)
-      await AsyncStorage.setItem('bday',birthdate)
-      await AsyncStorage.setItem('1stcity',selectedfirstCity)
-      await AsyncStorage.setItem('2ndcity',selectedsecondCity)
-      await AsyncStorage.setItem('3rdcity',selectedthirdCity)
-      await AsyncStorage.setItem('1stdose',firstDose)
-      await AsyncStorage.setItem('2nddose',secondDose)
-      await AsyncStorage.setItem('3rddose',thirdDose)
-      
+      let person = {
+        lname:lastName,
+        fname:firstName,
+        mname:middleName,
+        sname:suffix,
+        bday:birthdate,
+        fcity:selectedfirstCity,
+        fdose:firstDose,
+        scity:selectedsecondCity,
+        sdose:secondDose,
+        tcity:selectedthirdCity,
+        tdose:thirdDose
+      }
+      person = JSON.stringify(person)
+      await AsyncStorage.setItem('user',person)
       navigation.navigate('Home')
     }
     catch(e){
       alert(e)
     }
   }
-  
   const submitHandler = () => {
     if ((lastName == ''|| (firstName == '')|| (middleName == '')|| (birthdate == '')
     || (firstDose == '')|| (secondDose == ''))){
